@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     'classification.apps.ClassificationConfig',
     'place.apps.PlaceConfig',
+    'forecast.apps.ForecastConfig',
     
 ]
 
