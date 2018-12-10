@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'classification.apps.ClassificationConfig',
-    'place.app.PlaceConfig',
+    'place.apps.PlaceConfig',
     
 ]
 
