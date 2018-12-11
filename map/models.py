@@ -22,7 +22,8 @@ class Master(models.Model):
 
     latitude = models.FloatField(default=0.0)
     longitude = models.FloatField(default=0.0)
+    batch_id = models.IntegerField(default=0)
     pub_date = models.DateTimeField('date published')
 
     def __str__(self):
-        return self.area.name + "_" + str(self.latitude) + "_" + str(self.longitude)
+        return self.area.name + "_" + str(self.category.name) + "_" + str(self.feature.name)
