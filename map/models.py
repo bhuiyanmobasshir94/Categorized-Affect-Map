@@ -14,7 +14,7 @@ class Master(models.Model):
     class Meta:
         verbose_name_plural = "master model"
     area = models.ForeignKey(Area,on_delete=models.CASCADE,null=True)
-    location = models.ForeignKey(Location,on_delete=models.CASCADE,null=True)
+    location = models.ForeignKey(Location,on_delete=models.CASCADE,null=True)#
     category = models.ForeignKey(Category,on_delete=models.CASCADE,null=True)
     feature = models.ForeignKey(Feature,on_delete=models.CASCADE,null=True)
     weather = models.ForeignKey(Weather,on_delete=models.CASCADE,null=True)

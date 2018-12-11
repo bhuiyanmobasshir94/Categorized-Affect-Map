@@ -21,11 +21,11 @@ FEATURES_CHOICE = list((x.id, x.name) for x in features)
 class AffectiveResponse(models.Model):
     class Meta:
         verbose_name_plural = "affective responses"
-    location = models.ForeignKey(Location,on_delete=models.CASCADE,null=True)
+    location = models.ForeignKey(Location,on_delete=models.CASCADE,null=True)#
     category = models.ForeignKey(Category,on_delete=models.CASCADE,null=True)
     familiarity = models.IntegerField(choices=FAMILIARITY_CHOICE,blank=False)
     accompany = models.IntegerField(choices=ACCOMPANY_CHOICE,blank=False)
-    feature_set =  MultiSelectField(choices=FEATURES_CHOICE,max_choices=5,max_length=20,default=0)
+    feature_set =  MultiSelectField(choices=FEATURES_CHOICE,min_choices=5,max_choices=5,max_length=20,default=0)
     comfortability = models.IntegerField(choices=COMFORTABILITY_CHOICE,blank=False)
     pub_date = models.DateTimeField('date published')
 

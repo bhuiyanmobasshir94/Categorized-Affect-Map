@@ -8,7 +8,7 @@ from place.models import Location
 class Weather(models.Model):
     class Meta:
         verbose_name_plural = "weathers"
-    location = models.ForeignKey(Location,on_delete=models.CASCADE)
+    location = models.ForeignKey(Location,on_delete=models.CASCADE)#
     main = models.CharField(max_length=100)
     desc = models.CharField(max_length=200)
     temp = models.FloatField(default=0.0)
