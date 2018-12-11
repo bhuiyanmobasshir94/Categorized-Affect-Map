@@ -22,7 +22,7 @@ def get_weather(latitude_,longitude_):
 def get_location(latitude_,longitude_):
     latitude = latitude_
     longitude = longitude_
-    url = 'https://nominatim.openstreetmap.org/reverse?format=json&lat={}&lon={}&zoom=18&addressdetails=1'.format(latitude, longitude)
+    url = 'https://nominatim.openstreetmap.org/reverse?format=json&lat={}&lon={}&zoom=18&addressdetails=1'.format(float(latitude),float(longitude))
     res = requests.get(url)
     data = res.json()
     return data["display_name"]
