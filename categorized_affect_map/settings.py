@@ -26,11 +26,11 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '(^*pg3ctecyg&y4aa62q__x%78v(i-
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
-ALLOWED_HOSTS = ['categorized-affect-map.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['categorized-affect-map-v3.herokuapp.com','127.0.0.1']
 
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
-SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = True
 X_FRAME_OPTIONS = 'DENY'
 
@@ -44,12 +44,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'classification.apps.ClassificationConfig',
-    'place.apps.PlaceConfig',
-    'forecast.apps.ForecastConfig',
-    'response.apps.ResponseConfig',
-    'map.apps.MapConfig',
-    'multiselectfield',
+    # 'classification.apps.ClassificationConfig',
+    # 'place.apps.PlaceConfig',
+    # 'forecast.apps.ForecastConfig',
+    # 'response.apps.ResponseConfig',
+    # 'map.apps.MapConfig',
+    # 'multiselectfield',
     
 ]
 

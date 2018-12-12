@@ -40,11 +40,20 @@ for cat_name in cat_name_list:
         f_list = list()
         for i in range(5):
             rn = random.randint(1,f_count)
-            if i != 4:
-                f_str += '{},'.format(str(rn))
+            if str(rn) not in f_str:
+                if i != 4:
+                    f_str += '{},'.format(str(rn))
+                else:
+                    f_str += str(rn)
+                f_list.append(rn)
+                
             else:
-                f_str += str(rn)
-            f_list.append(rn)
+                rn = random.randint(1,f_count)
+                if i != 4:
+                    f_str += '{},'.format(str(rn))
+                else:
+                    f_str += str(rn)
+                f_list.append(rn)
         name_res = get_location(row['lat'],row['lon'])
         weather_res = get_weather(row['lat'],row['lon'])
         l = a.location_set.create(name=name_res,latitude=row['lat'],longitude=row['lon'],pub_date=timezone.now())
