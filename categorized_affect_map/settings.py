@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # 'classification.apps.ClassificationConfig',
+    'classification.apps.ClassificationConfig',
     # 'place.apps.PlaceConfig',
     # 'forecast.apps.ForecastConfig',
     # 'response.apps.ResponseConfig',
