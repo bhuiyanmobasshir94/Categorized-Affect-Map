@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'classification.apps.ClassificationConfig',
-    # 'place.apps.PlaceConfig',
+    'place.apps.PlaceConfig',
     # 'forecast.apps.ForecastConfig',
     # 'response.apps.ResponseConfig',
     # 'map.apps.MapConfig',
