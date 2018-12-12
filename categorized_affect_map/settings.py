@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'place.apps.PlaceConfig',
     'forecast.apps.ForecastConfig',
     'response.apps.ResponseConfig',
-    # 'map.apps.MapConfig',
+    'map.apps.MapConfig',
     # 'multiselectfield',
     
 ]
