@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Categorized Affect Map</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" /> 
+    <style type="text/css">
+        body {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    background: rgba(73,155,234,1);
+    background: -moz-radial-gradient(center, ellipse cover, rgba(73,155,234,1) 0%, rgba(32,124,229,0) 100%);
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(73,155,234,1) 0%, rgba(32,124,229,0) 100%);
+    background: -o-radial-gradient(center, ellipse cover, rgba(73,155,234,1) 0%, rgba(32,124,229,0) 100%);
+    background: -ms-radial-gradient(center, ellipse cover, rgba(73,155,234,1) 0%, rgba(32,124,229,0) 100%);
+    background: radial-gradient(ellipse at center, rgba(73,155,234,1) 0%, rgba(32,124,229,0) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#499bea', endColorstr='#207ce5', GradientType=1 );
+  }
+  .fixed-action-btn {
+    right: inherit !important;
+    /* left: 3px !important; */
+    left: 15px !important;
+    /* bottom: 23px !important; */
+    bottom: 40px !important;
+}
+    </style>
+  </head>
+
+  <body>
+        <nav>
+            <div class="nav-wrapper cyan">
+                <a href="#" class="brand-logo center">Categorized Affect Map</a>
+            </div>
+        </nav>
+
+        <div class="fixed-action-btn">
+            <a class="waves-effect waves-light btn-floating btn-large cyan pulse tooltipped" data-position="right" data-tooltip="Menu">
+                <i class="large material-icons">nature_people</i>
+            </a>
+            <ul>
+                <li><a href="#modal1" class="waves-effect waves-light btn-floating red modal-trigger tooltipped" data-position="right" data-tooltip="Add"><i class="material-icons">add_location</i></a></li>
+                <li><a href="#modal2" class="waves-effect waves-light btn-floating yellow darken-1 tooltipped" data-position="right" data-tooltip="Request"><i class="material-icons">local_activity</i></a></li>
+                <li><a href="#" class="waves-effect waves-light btn-floating green tooltipped" data-position="right" data-tooltip="Map View"><i class="material-icons">map</i></a></li>
+                <li><a href="#" class="waves-effect waves-light btn-floating blue tooltipped" data-position="right" data-tooltip="About"><i class="material-icons">copyright</i></a></li>
+            </ul>
+        </div>
+                    
+        <section>
+            <div id="MapLocation" style="height: 90vh;"></div>
+        </section>
+
+        <!-- Modal Structure -->
+        <div id="modal1" class="modal bottom-sheet">
+          <div class="modal-content">
+                <section>
+                    <form action="" id="form-data"> 
+                        <div class="input-field">
+                            <input type="text"id="Place_Name" placeholder="Place Name" name="Location.Place" class="validate"/>
+                            <input type="text" id="Latitude" placeholder="Latitude" name="Location.Latitude"/>
+                            <input type="text" id="Longitude" placeholder="Longitude" name="Location.Longitude"/>
+                        </div>  
+                    </form>
+                </section>
+          </div>
+          <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Next</a>
+          </div>
+        </div>
+
+
+                
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script type="text/javascript">
+            $(function() {
+
+            var curLocation = [0, 0];
+
+            if (curLocation[0] == 0 && curLocation[1] == 0) {
+            curLocation = [23.727653856868663,90.4105067253113];
+            }
+
+            var map = L.map('MapLocation').setView(curLocation, 10);
+
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            lc = L.control.locate({
+            getLocationBounds: function (locationEvent) {
+                lat_lng = locationEvent.bounds.getCenter();
+                lat_lng_list = [lat_lng['lat'],lat_lng['lng']];
+                $("#Latitude").val(lat_lng['lat']);
+                $("#Longitude").val(lat_lng['lng']);
+                set_place_name(lat_lng_list);
+                
+                // New add
+                L.popup({maxWidth: 200,className: 'popup-location'})
+                .setLatLng(lat_lng_list)
+                .setContent('Note: Rewrite correct address.')
+                .openOn(map);
+                return locationEvent.bounds.extend(lat_lng_list);
+            },
+            returnToPrevBounds: true,
+            flyTo: true,
+            setView: 'always',
+            locateOptions: {
+                enableHighAccuracy: true,
+            },
+            strings: {
+                title: "Show Me"
+            },
+            }).addTo(map);
+            lc.start();
+
+            function set_place_name(lat_lng_list){
+            L.Control.Geocoder.nominatim().reverse({
+                'lat':lat_lng_list[0],
+                'lng':lat_lng_list[1],
+            },10, function(results) {
+                var r = results[0];
+                if (r) {
+                $("#Place_Name").val(r.name);
+                }
+            })
+            }
+            })
+
+            $(document).ready(function(){
+            $('.fixed-action-btn').floatingActionButton({
+                direction: 'top',
+                hoverEnabled: false,
+            });
+            });
+
+            $(document).ready(function(){
+            $('.modal').modal();
+            });
+
+            $(document).ready(function(){
+            $('.tooltipped').tooltip();
+            });
+    
+    </script>
+  </body>
+</html>
+
+
+
+
