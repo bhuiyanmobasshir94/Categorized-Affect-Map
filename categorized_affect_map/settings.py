@@ -46,7 +46,7 @@ INSTALLED_APPS = [
 
     'classification.apps.ClassificationConfig',
     'place.apps.PlaceConfig',
-    # 'forecast.apps.ForecastConfig',
+    'forecast.apps.ForecastConfig',
     # 'response.apps.ResponseConfig',
     # 'map.apps.MapConfig',
     # 'multiselectfield',
