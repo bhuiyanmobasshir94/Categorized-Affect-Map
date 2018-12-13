@@ -48,7 +48,7 @@
                 <i class="large material-icons">nature_people</i>
             </a>
             <ul>
-                <li><a href="#modal1" class="waves-effect waves-light btn-floating red modal-trigger tooltipped" data-position="right" data-tooltip="Add"><i class="material-icons">add_location</i></a></li>
+                <li><a href="{% url 'map:index'%}" class="waves-effect waves-light btn-floating red modal-trigger tooltipped" data-position="right" data-tooltip="Add"><i class="material-icons">add_location</i></a></li>
                 <li><a href="#!" class="waves-effect waves-light btn-floating yellow darken-1 tooltipped" data-position="right" data-tooltip="Request"><i class="material-icons">local_activity</i></a></li>
                 <li><a href="{% url 'map:map-view'%}" class="waves-effect waves-light btn-floating green tooltipped" data-position="right" data-tooltip="Map View"><i class="material-icons">map</i></a></li>
                 <li><a href="{% url 'map:about'%}" class="waves-effect waves-light btn-floating blue tooltipped" data-position="right" data-tooltip="About"><i class="material-icons">copyright</i></a></li>
@@ -56,29 +56,8 @@
         </div>
                     
         <section>
-            <div id="MapLocation" style="height: 90vh;"></div>
+            <iframe src="{% url 'map:category'%}" width="100%" style="height: 89vh;" frameborder="0" allowfullscreen></iframe>
         </section>
-
-        <!-- Modal Structure -->
-        <div id="modal1" class="modal bottom-sheet modal-fixed-footer">
-          <div class="modal-content">
-                <section>
-                    <form action="" id="form-data"> 
-                        <div class="input-field">
-                            <input type="text"id="Place_Name" placeholder="Place Name" name="Location.Place" class="validate"/>
-                            <input type="hidden" id="Latitude" placeholder="Latitude" name="Location.Latitude"/>
-                            <input type="hidden" id="Longitude" placeholder="Longitude" name="Location.Longitude"/>
-                        </div>  
-                    </form>
-                </section>
-          </div>
-          <div class="modal-footer">
-              <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-          </div>
-        </div>
-        
-          
-
 
                 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -87,69 +66,11 @@
     <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
     <script type="text/javascript">
-            $(function() {
-
-            var curLocation = [0, 0];
-
-            if (curLocation[0] == 0 && curLocation[1] == 0) {
-            curLocation = [23.727653856868663,90.4105067253113];
-            }
-
-            var map = L.map('MapLocation').setView(curLocation, 10);
-
-            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-
-            lc = L.control.locate({
-            getLocationBounds: function (locationEvent) {
-                lat_lng = locationEvent.bounds.getCenter();
-                lat_lng_list = [lat_lng['lat'],lat_lng['lng']];
-                $("#Latitude").val(lat_lng['lat']);
-                $("#Longitude").val(lat_lng['lng']);
-                set_place_name(lat_lng_list);
-                
-                // New add
-                L.popup({maxWidth: 200,className: 'popup-location'})
-                .setLatLng(lat_lng_list)
-                .setContent('System retrieving correct location.')
-                .openOn(map);
-                return locationEvent.bounds.extend(lat_lng_list);
-            },
-            returnToPrevBounds: true,
-            flyTo: true,
-            setView: 'always',
-            locateOptions: {
-                enableHighAccuracy: true,
-            },
-            strings: {
-                title: "Show Me"
-            },
-            }).addTo(map);
-            lc.start();
-
-            function set_place_name(lat_lng_list){
-            L.Control.Geocoder.nominatim().reverse({
-                'lat':lat_lng_list[0],
-                'lng':lat_lng_list[1],
-            },10, function(results) {
-                var r = results[0];
-                if (r) {
-                $("#Place_Name").val(r.name);
-                }
-            })
-            }
-            }) // Jquery end
-
             $(document).ready(function(){
             $('.fixed-action-btn').floatingActionButton({
                 direction: 'top',
                 hoverEnabled: false,
             });
-            });
-
-            $(document).ready(function(){
-                $('.modal').modal();
             });
 
             $(document).ready(function(){
