@@ -10,10 +10,10 @@ class Area(models.Model):
     name = models.CharField(max_length=200)
     latitude = models.FloatField(default=0.0)
     longitude = models.FloatField(default=0.0)
-    top_north_lat = models.FloatField(default=0.0)
-    left_west_long = models.FloatField(default=0.0)
-    right_east_long = models.FloatField(default=0.0)
-    bottom_south_lat = models.FloatField(default=0.0)
+    top_north_lat_TP = models.FloatField(default=0.0)
+    left_west_long_TL = models.FloatField(default=0.0)
+    right_east_long_TP = models.FloatField(default=0.0)
+    bottom_south_lat_TL = models.FloatField(default=0.0)
     pub_date = models.DateTimeField('date published')
 
     def __str__(self):
