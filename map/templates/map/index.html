@@ -32,7 +32,7 @@
     left: 15px !important;
     /* bottom: 23px !important; */
     bottom: 40px !important;
-}
+    }
     </style>
   </head>
 
@@ -49,9 +49,9 @@
             </a>
             <ul>
                 <li><a href="#modal1" class="waves-effect waves-light btn-floating red modal-trigger tooltipped" data-position="right" data-tooltip="Add"><i class="material-icons">add_location</i></a></li>
-                <li><a href="#modal2" class="waves-effect waves-light btn-floating yellow darken-1 tooltipped" data-position="right" data-tooltip="Request"><i class="material-icons">local_activity</i></a></li>
-                <li><a href="#" class="waves-effect waves-light btn-floating green tooltipped" data-position="right" data-tooltip="Map View"><i class="material-icons">map</i></a></li>
-                <li><a href="#" class="waves-effect waves-light btn-floating blue tooltipped" data-position="right" data-tooltip="About"><i class="material-icons">copyright</i></a></li>
+                <li><a href="#!" class="waves-effect waves-light btn-floating yellow darken-1 tooltipped" data-position="right" data-tooltip="Request"><i class="material-icons">local_activity</i></a></li>
+                <li><a href="#!" class="waves-effect waves-light btn-floating green tooltipped" data-position="right" data-tooltip="Map View"><i class="material-icons">map</i></a></li>
+                <li><a href="#!" class="waves-effect waves-light btn-floating blue tooltipped" data-position="right" data-tooltip="About"><i class="material-icons">copyright</i></a></li>
             </ul>
         </div>
                     
@@ -60,22 +60,23 @@
         </section>
 
         <!-- Modal Structure -->
-        <div id="modal1" class="modal bottom-sheet">
+        <div id="modal1" class="modal bottom-sheet modal-fixed-footer">
           <div class="modal-content">
                 <section>
                     <form action="" id="form-data"> 
                         <div class="input-field">
                             <input type="text"id="Place_Name" placeholder="Place Name" name="Location.Place" class="validate"/>
-                            <input type="text" id="Latitude" placeholder="Latitude" name="Location.Latitude"/>
-                            <input type="text" id="Longitude" placeholder="Longitude" name="Location.Longitude"/>
+                            <input type="hidden" id="Latitude" placeholder="Latitude" name="Location.Latitude"/>
+                            <input type="hidden" id="Longitude" placeholder="Longitude" name="Location.Longitude"/>
                         </div>  
                     </form>
                 </section>
           </div>
           <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Next</a>
+              <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
           </div>
         </div>
+          
 
 
                 
@@ -110,7 +111,7 @@
                 // New add
                 L.popup({maxWidth: 200,className: 'popup-location'})
                 .setLatLng(lat_lng_list)
-                .setContent('Note: Rewrite correct address.')
+                .setContent('System retrieving correct location.')
                 .openOn(map);
                 return locationEvent.bounds.extend(lat_lng_list);
             },
@@ -137,7 +138,7 @@
                 }
             })
             }
-            })
+            }) // Jquery end
 
             $(document).ready(function(){
             $('.fixed-action-btn').floatingActionButton({
@@ -147,7 +148,7 @@
             });
 
             $(document).ready(function(){
-            $('.modal').modal();
+                $('.modal').modal();
             });
 
             $(document).ready(function(){
