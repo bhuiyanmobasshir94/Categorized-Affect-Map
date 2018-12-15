@@ -4,12 +4,15 @@ import datetime
 
 # Create your models here.
 
+CHOICE = [(1,'Active'),(0,'Inactive')]
+
 class Area(models.Model):
     class Meta:
         verbose_name_plural = "areas"
     name = models.CharField(max_length=200)
     latitude = models.FloatField(default=0.0)
     longitude = models.FloatField(default=0.0)
+    status = models.BooleanField(choices=CHOICE,default=0,blank=False)
     top_north_lat_TP = models.FloatField(default=0.0)
     left_west_long_TL = models.FloatField(default=0.0)
     right_east_long_TP = models.FloatField(default=0.0)

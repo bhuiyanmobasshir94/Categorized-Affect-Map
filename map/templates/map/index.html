@@ -50,7 +50,7 @@
             <ul>
                 <li><a href="#modal1" class="waves-effect waves-light btn-floating red modal-trigger tooltipped" data-position="right" data-tooltip="Add"><i class="material-icons">add_location</i></a></li>
                 <li><a href="#!" class="waves-effect waves-light btn-floating yellow darken-1 tooltipped" data-position="right" data-tooltip="Request"><i class="material-icons">local_activity</i></a></li>
-                <li><a href="{% url 'map:map-view'%}" class="waves-effect waves-light btn-floating green tooltipped" data-position="right" data-tooltip="Map View"><i class="material-icons">map</i></a></li>
+                <li><a href="#modal2" class="waves-effect waves-light btn-floating green modal-trigger tooltipped" data-position="right" data-tooltip="Map View"><i class="material-icons">map</i></a></li>
                 <li><a href="{% url 'map:about'%}" class="waves-effect waves-light btn-floating blue tooltipped" data-position="right" data-tooltip="About"><i class="material-icons">copyright</i></a></li>
             </ul>
         </div>
@@ -60,22 +60,151 @@
         </section>
 
         <!-- Modal Structure -->
-        <div id="modal1" class="modal bottom-sheet modal-fixed-footer">
+        <div id="modal1" class="modal modal-fixed-footer">
+        <form method="POST" action="{% url 'map:submit-response' %}">
+        {% csrf_token %}
           <div class="modal-content">
-                <section>
-                    <form action="" id="form-data"> 
-                        <div class="input-field">
-                            <input type="text"id="Place_Name" placeholder="Place Name" name="Location.Place" class="validate"/>
-                            <input type="hidden" id="Latitude" placeholder="Latitude" name="Location.Latitude"/>
-                            <input type="hidden" id="Longitude" placeholder="Longitude" name="Location.Longitude"/>
-                        </div>  
-                    </form>
-                </section>
+            <div class="row">
+                <div class="input-field col s12 ss-item-required">
+                    <!-- <i class="material-icons prefix">my_location</i> -->
+                    <input type="text" id="Place_Name" placeholder="Place Name" name="Location.Place" class="validate" required/>
+                    <input type="hidden" id="Latitude" placeholder="Latitude" name="Location.Latitude" required/>
+                    <input type="hidden" id="Longitude" placeholder="Longitude" name="Location.Longitude" required/>
+                    <input type="hidden" id="area_status" placeholder="Area status" name="Area.status" required/>
+                    <input type="hidden" id="feature_string" placeholder="Feature Set" name="feature_string" required/>
+                    <label for="Place_Name">Location Name</label>
+                    <span class="helper-text" data-error="Please Provide correct location name." data-success="Thank you for providing correct location name.">Please rewrite correct location name</span>
+                </div>
+                <div class="input-field col s12 ss-item-required">
+                    <select name="Area" id="area_select_m1" required>
+                        <option value="" disabled selected>Choose your area</option>
+                        {% for area in latest_area_list %}
+                        <option value="{{area.id}}">{{area.name}}</option>
+                        {% endfor %}
+                    </select>
+                    <label>Area</label>
+                    <span class="helper-text" id="area-helper">Please choose correct area for this location</span>
+                </div>
+                <div class="input-field col s12 ss-item-required">
+                    <select id="category_select_m1" name="Category" required>
+                        <option value="" disabled selected>Choose your category</option>
+                        {% for category in latest_category_list %}
+                        <option value="{{category.id}}">{{category.name}}</option>
+                        {% endfor %}     
+                    </select>
+                    <label>Category</label>
+                </div>
+
+                <div class="input-field col s12 ss-item-required">
+                    <select id="feature_select_m1" name="Feature" multiple required>    
+
+                    </select>
+                    <label>Feature</label>
+                </div>
+
+                <div class="input-field col s12 ss-item-required">
+                    <select name="Familiarity" required>
+                        <option value="" disabled selected>Choose your familiarity</option>
+                        <option value="1">For the first time</option>
+                        <option value="2">More Often</option>
+                    </select>
+                    <label>familiarity</label>
+                </div>
+                <div class="input-field col s12 ss-item-required">
+                    <select name="Accompany" required>
+                        <option value="" disabled selected>Choose your accompany</option>
+                        <option value="1">Alone</option>
+                        <option value="2">With family member(s)</option>
+                        <option value="3">With friend(s)</option>
+                        <option value="4">With adult(s)</option>
+                        <option value="5">with child(ren)</option>
+                    </select>
+                    <label>Accompany</label>
+                </div>
+                <div class="input-field col s12 ss-item-required">
+                    <select name="Comfortability" required>
+                        <option value="" disabled selected>Choose your comfortability</option>
+                        <option value="1">Very uncomfortable</option>
+                        <option value="2">Uncomfortable</option>
+                        <option value="3">Slightly uncomfortable</option>
+                        <option value="4">Neutral</option>
+                        <option value="5">Slightly comfortable</option>
+                        <option value="6">Comfortable</option>
+                        <option value="7">Very comfortable</option>
+                    </select>
+                    <label>Comfortability</label>
+                </div>
+            </div>
           </div>
           <div class="modal-footer">
-              <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+                <input type="submit" class="modal-close waves-effect waves-green btn-flat" id="m1_submit" value="Submit" disabled>
           </div>
+          </form>
         </div>
+
+        <div id="modal2" class="modal modal-fixed-footer">
+                <form method="POST" action="{% url 'map:map-view' %}">
+                    {% csrf_token %}
+                    <div class="modal-content">
+                                {% if latest_area_list %}
+                                <select id="area_select" name="Area">
+                                    <option value="" disabled selected>Choose your area</option>
+                                    {% for area in latest_area_list %}
+                                        <option id="area{{forloop.counter}}" value="{{area.id}}">{{area.name}}</option>
+                                    {% endfor %}
+                                </select>
+                                {% else %}
+                                    <p>No areas are available.</p>
+                                {% endif %}
+                                <label>Area</label>
+                                 <br/>
+                                {% if latest_category_list %}
+                                <select id="category_select" name="Category">
+                                    <option value="" disabled selected>Choose your Category</option>
+                                    {% for category in latest_category_list%}
+                                        <option id="category{{forloop.counter}}" value="{{category.id}}">{{category.name}}</option>
+                                    {% endfor %}
+                                </select>
+                                {% else %}
+                                    <p>No categories are available.</p>
+                                {% endif %}
+                                <label>Category</label>
+                    </div>
+                    <div class="modal-footer">
+                    <input type="submit" class="modal-close waves-effect waves-green btn-flat" value="Submit">
+                    </div>
+                </form>
+              </div>
+
+      <!-- <div id="modal3" class="modal">
+            <form method="POST" action="{% url 'map:map-view' %}">
+                {% csrf_token %}
+            <div class="modal-content">
+                <label>Area</label>
+                <select class="browser-default" name="Area">
+                  <option value="" disabled selected>Choose your option</option>
+                  {% for area in latest_area_list %}
+                  <option value="{{area.id}}">{{area.name}}</option>
+                  {% endfor %}
+                </select>
+    
+                <label>Category</label>
+                <select class="browser-default" name="Category">
+                  <option value="" disabled selected>Choose your option</option>
+                  {% for category in latest_category_list%}
+                  <option value="{{category.id}}">{{category.name}}</option>
+                  {% endfor %}
+                </select>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="modal-close waves-effect waves-green btn-flat" value="Submit">
+            </div>
+            </form>
+          </div> -->
+
+
+          
+    
         
           
 
@@ -155,7 +284,85 @@
             $(document).ready(function(){
             $('.tooltipped').tooltip();
             });
-    
+
+            $(document).ready(function(){
+                $('select').formSelect();
+            });
+
+            $(function(){ 
+            // inspect html to check id of category select dropdown.
+            $(document).on('change', "select#category_select_m1", function(){ 
+                $.getJSON("features/",{id: $(this).val()}, function(j){ 
+                     var options = '<option value="" disabled>Choose your feature</option>'; 
+                     for (var i = 0; i < j.length; i++) { 
+                         options += '<option value="' + j[i].id + '">' + j[i].name + '</option>'; 
+                     } 
+                     $("select#feature_select_m1").html(options); 
+                     $('select').formSelect();
+                 }); 
+             }); 
+         }); 
+
+         $(function(){ 
+            // inspect html to check id of category select dropdown.
+            $(document).on('change', "select#area_select_m1", function(){ 
+                $.getJSON("area/",{id: $(this).val()}, function(j){ 
+                    top_north_lat_TP_res = j[0].top_north_lat_TP
+                    left_west_long_TL_res = j[0].left_west_long_TL
+                    right_east_long_TP_res = j[0].right_east_long_TP
+                    bottom_south_lat_TL_res = j[0].bottom_south_lat_TL
+
+                    lat = $("#Latitude").val();
+                    lng = $("#Longitude").val();
+
+
+                    if (((bottom_south_lat_TL_res <= lat) && ( lat<= top_north_lat_TP_res)) && ((left_west_long_TL_res <= lng) && ( lng <= right_east_long_TP_res))){
+                        $("span#area-helper").text("You have chosen correct bounded area for this location.");
+                        $("input#m1_submit").prop('disabled',false)
+                        $("span#area-helper").css('color','#4CAF50')
+                        $("input#area_status").val(1)
+                    }else{
+                        $("span#area-helper").text("You have not chosen correct bounded area for this location.");
+                        $("input#m1_submit").prop('disabled',true)
+                        $("span#area-helper").css('color','#F44336')
+                        $("input#area_status").val(0)
+                    }
+                 }); 
+             }); 
+         }); 
+
+         $(document).ready(function(){
+         $("select#feature_select_m1").change(function() {
+            var string = "";
+            $.each($('select#feature_select_m1').val(), function( index, value ) {
+                string += value +",";
+            });
+            $('input#feature_string').val(string);
+            });
+            });
+
+            document.querySelector("#m1_submit").addEventListener("click", function(event){
+                // event.preventDefault();
+                var fields = $(".ss-item-required").find("select,input"); //.serializeArray();
+                var flag = false;
+                $.each(fields, function(i, field) {
+                    if (field.name && !field.value){
+                        var f = "<span>Submission Failed: '"+  field.name + "' missed!</span><button href='#modal1' class='btn-flat modal-trigger toast-action'>Resubmit</button>" ;
+                        M.toast({html: f, displayLength:6000});
+                        flag = false;
+                    }else{
+                        flag=true;
+                    }
+                }); 
+                if(flag === true){
+                    M.toast({html: '<span>Thanks for your submission! We appreciate your time and efort.</span>',displayLength:6000});
+                    return true;
+                }else{
+                    return false;
+                }
+               
+            },false);
+
     </script>
   </body>
 </html>

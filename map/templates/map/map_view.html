@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" /> 
     <style type="text/css">
-        body {
+    body {
     padding: 0;
     margin: 0;
     height: 100vh;
@@ -48,9 +48,9 @@
                 <i class="large material-icons">nature_people</i>
             </a>
             <ul>
-                <li><a href="{% url 'map:index'%}" class="waves-effect waves-light btn-floating red modal-trigger tooltipped" data-position="right" data-tooltip="Add"><i class="material-icons">add_location</i></a></li>
+                <li><a href="{% url 'map:index'%}" class="waves-effect waves-light btn-floating red tooltipped" data-position="right" data-tooltip="Add"><i class="material-icons">add_location</i></a></li>
                 <li><a href="#!" class="waves-effect waves-light btn-floating yellow darken-1 tooltipped" data-position="right" data-tooltip="Request"><i class="material-icons">local_activity</i></a></li>
-                <li><a href="{% url 'map:map-view'%}" class="waves-effect waves-light btn-floating green tooltipped" data-position="right" data-tooltip="Map View"><i class="material-icons">map</i></a></li>
+                <li><a href="#modal2" class="waves-effect waves-light btn-floating green modal-trigger tooltipped" data-position="right" data-tooltip="Map View"><i class="material-icons">map</i></a></li>
                 <li><a href="{% url 'map:about'%}" class="waves-effect waves-light btn-floating blue tooltipped" data-position="right" data-tooltip="About"><i class="material-icons">copyright</i></a></li>
             </ul>
         </div>
@@ -59,6 +59,68 @@
             <iframe src="{% url 'map:category'%}" width="100%" style="height: 89vh;" frameborder="0" allowfullscreen></iframe>
         </section>
 
+        <div id="modal2" class="modal modal-fixed-footer">
+            <form method="POST" action="{% url 'map:map-view' %}">
+                {% csrf_token %}
+                <div class="modal-content">
+                            {% if latest_area_list %}
+                            <select id="area_select" name="Area">
+                                <option value="" disabled selected>Choose your area</option>
+                                {% for area in latest_area_list %}
+                                    <option id="area{{forloop.counter}}" value="{{area.id}}">{{area.name}}</option>
+                                {% endfor %}
+                            </select>
+                            {% else %}
+                                <p>No areas are available.</p>
+                            {% endif %}
+                            <label>Area</label>
+                             <br/>
+                            {% if latest_category_list %}
+                            <select id="category_select" name="Category">
+                                <option value="" disabled selected>Choose your Category</option>
+                                {% for category in latest_category_list%}
+                                    <option id="category{{forloop.counter}}" value="{{category.id}}">{{category.name}}</option>
+                                {% endfor %}
+                            </select>
+                            {% else %}
+                                <p>No categories are available.</p>
+                            {% endif %}
+                            <label>Category</label>
+                </div>
+                <div class="modal-footer">
+                <input type="submit" class="modal-close waves-effect waves-green btn-flat" value="Submit">
+                </div>
+            </form>
+          </div>
+    
+
+    <!-- <div id="modal3" class="modal">
+        <form method="POST" action="{% url 'map:map-view' %}">
+            {% csrf_token %}
+        <div class="modal-content">
+            <label>Area</label>
+            <select class="browser-default" name="Area">
+              <option value="" disabled selected>Choose your option</option>
+              {% for area in latest_area_list %}
+              <option value="{{area.id}}">{{area.name}}</option>
+              {% endfor %}
+            </select>
+
+            <label>Category</label>
+            <select class="browser-default" name="Category">
+              <option value="" disabled selected>Choose your option</option>
+              {% for category in latest_category_list%}
+              <option value="{{category.id}}">{{category.name}}</option>
+              {% endfor %}
+            </select>
+        </div>
+        <div class="modal-footer">
+            <input type="submit" class="modal-close waves-effect waves-green btn-flat" value="Submit">
+        </div>
+        </form>
+      </div> -->
+
+      
                 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -75,6 +137,14 @@
 
             $(document).ready(function(){
             $('.tooltipped').tooltip();
+            });
+
+            $(document).ready(function(){
+            $('.modal').modal();
+            });
+
+            $(document).ready(function(){
+                $('select').formSelect();
             });
     
     </script>
