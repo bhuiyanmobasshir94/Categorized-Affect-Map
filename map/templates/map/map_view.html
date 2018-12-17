@@ -33,6 +33,12 @@
     /* bottom: 23px !important; */
     bottom: 40px !important;
     }
+    .leaflet-popup{
+        width: 440px !important;
+    }
+    .leaflet-popup-content-wrapper{
+        width: 440px !important;
+    }
     </style>
   </head>
 
@@ -49,9 +55,9 @@
             </a>
             <ul>
                 <li><a href="{% url 'map:index'%}" class="waves-effect waves-light btn-floating red tooltipped" data-position="right" data-tooltip="Add"><i class="material-icons">add_location</i></a></li>
-                <li><a href="#!" class="waves-effect waves-light btn-floating yellow darken-1 tooltipped" data-position="right" data-tooltip="Request"><i class="material-icons">local_activity</i></a></li>
+                <!-- <li><a href="#!" class="waves-effect waves-light btn-floating yellow darken-1 tooltipped" data-position="right" data-tooltip="Request"><i class="material-icons">local_activity</i></a></li> -->
                 <li><a href="#modal2" class="waves-effect waves-light btn-floating green modal-trigger tooltipped" data-position="right" data-tooltip="Map View"><i class="material-icons">map</i></a></li>
-                <li><a href="{% url 'map:about'%}" class="waves-effect waves-light btn-floating blue tooltipped" data-position="right" data-tooltip="About"><i class="material-icons">copyright</i></a></li>
+                <!-- <li><a href="{% url 'map:about'%}" class="waves-effect waves-light btn-floating blue tooltipped" data-position="right" data-tooltip="About"><i class="material-icons">copyright</i></a></li> -->
             </ul>
         </div>
                     
