@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -37,12 +38,13 @@
   </head>
 
   <body>
+        <div class="navbar-fixed">
         <nav>
             <div class="nav-wrapper cyan">
-                <a href="{% url 'map:index'%}" class="brand-logo center">CAM</a>
+                <a href="{% url 'map:index'%}" class="brand-logo center"><img src="{% static 'map/images/logo.png' %}" style="height: 130px !important;width: 130px !important;transform: rotate(0deg) !important;" alt="Categorized Affect Map"></a>
             </div>
         </nav>
-
+        </div>
         <div class="fixed-action-btn">
             <a class="waves-effect waves-light btn-floating btn-large cyan pulse tooltipped" data-position="right" data-tooltip="Menu">
                 <i class="large material-icons">nature_people</i>
@@ -398,7 +400,7 @@
                 $("#Latitude").val(lat_lng['lat']);
                 $("#Longitude").val(lat_lng['lng']);
                 set_place_name(lat_lng_list);
-                
+
                 // New add
                 L.popup({maxWidth: 200,className: 'popup-location'})
                 .setLatLng(lat_lng_list)
