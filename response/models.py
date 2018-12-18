@@ -7,6 +7,7 @@ import datetime
 FAMILIARITY_CHOICE = [(1,'For the first time'),(2,'More Often')]
 ACCOMPANY_CHOICE = [(1,'Alone'),(2,'With family member(s)'),(3,'With friend(s)'),(4,'With adult(s)'),(5,'with child(ren)')]
 COMFORTABILITY_CHOICE = [(1,'Very uncomfortable'),(2,'Uncomfortable'),(3,'Slightly uncomfortable'),(4,'Neutral'),(5,'Slightly comfortable'),(6,'Comfortable'),(7,'Very comfortable')]
+LONGEVITY_CHOICE = [(1,'One day'),(2,'Two to four days'),(3,'Five to seven days'),(4,'More than seven days')]
 
 from classification.models import Category,Feature
 from place.models import Location
@@ -25,7 +26,7 @@ class AffectiveResponse(models.Model):
     category = models.ForeignKey(Category,on_delete=models.CASCADE,null=True)
     familiarity = models.IntegerField(choices=FAMILIARITY_CHOICE,blank=False)
     accompany = models.IntegerField(choices=ACCOMPANY_CHOICE,blank=False)
-    # feature_set =  MultiSelectField(choices=FEATURES_CHOICE,min_choices=5,max_choices=5,max_length=20,default=0)
+    longevity = models.IntegerField(choices=LONGEVITY_CHOICE,blank=False) 
     comfortability = models.IntegerField(choices=COMFORTABILITY_CHOICE,blank=False)
     pub_date = models.DateTimeField('date published')
 

@@ -25,6 +25,7 @@ from .models import Master
 FAMILIARITY_CHOICE = [(1,'For the first time'),(2,'More Often')]
 ACCOMPANY_CHOICE = [(1,'Alone'),(2,'With family member(s)'),(3,'With friend(s)'),(4,'With adult(s)'),(5,'With child(ren)')]
 COMFORTABILITY_CHOICE = [(1,'Very uncomfortable'),(2,'Uncomfortable'),(3,'Slightly uncomfortable'),(4,'Neutral'),(5,'Slightly comfortable'),(6,'Comfortable'),(7,'Very comfortable')]
+LONGEVITY_CHOICE = [(1,'One day'),(2,'Two to four days'),(3,'Five to seven days'),(4,'More than seven days')]
 
 ##________________________________________________##
 
@@ -197,25 +198,25 @@ def generate_category_html(area_id,cat_id):
         for feature in location_feature_set:
             temp_feature_count = location.master_set.filter(feature=feature.id).count()
             temp_feature_percentage = float((temp_feature_count/total_feature_count)*100)
-            location_feature_dict[feature.name] = temp_feature_percentage
+            location_feature_dict[feature.name] = np.round(temp_feature_percentage,2)
         
         location_familiarity_dict = dict()
         for val in FAMILIARITY_CHOICE:
             temp_l_f_c = location.affectiveresponse_set.filter(familiarity=int(val[0]),category=category).count()
             temp_l_f_percentage = float((temp_l_f_c/total_affective_response_submit)*100)
-            location_familiarity_dict[val[1]] = temp_l_f_percentage
+            location_familiarity_dict[val[1]] = np.round(temp_l_f_percentage,2)
         
         location_accompany_dict = dict()
         for val in ACCOMPANY_CHOICE:
             temp_l_f_c = location.affectiveresponse_set.filter(accompany=int(val[0]),category=category).count()
             temp_l_f_percentage = float((temp_l_f_c/total_affective_response_submit)*100)
-            location_accompany_dict[val[1]] = temp_l_f_percentage
+            location_accompany_dict[val[1]] = np.round(temp_l_f_percentage,2)
 
         location_comfortability_dict = dict()
         for val in COMFORTABILITY_CHOICE:
             temp_l_f_c = location.affectiveresponse_set.filter(comfortability=int(val[0]),category=category).count()
             temp_l_f_percentage = float((temp_l_f_c/total_affective_response_submit)*100)
-            location_comfortability_dict[val[1]] = temp_l_f_percentage
+            location_comfortability_dict[val[1]] = np.round(temp_l_f_percentage,2)
 
         raw = [location.latitude, location.longitude, area.name, location_name, category.name, total_affective_response_submit, location_feature_dict, location_familiarity_dict, location_accompany_dict, location_comfortability_dict, location_weather_dict, year, month, day]
         html = generate_html(raw)
@@ -228,10 +229,6 @@ def generate_category_html(area_id,cat_id):
 
 
 ###________________________________________________###
-
-
-
-
 
 def get_weather(latitude_,longitude_):
     latitude = latitude_
@@ -252,6 +249,7 @@ def submit_response(request):
     familiarity = request.POST.get('Familiarity', None)#
     accompany = request.POST.get('Accompany', None)#
     comfortability = request.POST.get('Comfortability', None)#
+    longevity = request.POST.get('Longevity', None)
     area_status = request.POST.get('Area.status', None)#
     feature_string = request.POST.get('feature_string', None)
     feature_list = feature_string.split(',')[:-1]
@@ -264,7 +262,7 @@ def submit_response(request):
         l = a.location_set.create(name=str(place_name),latitude=float(latitude),longitude=float(longitude),pub_date=timezone.now())
         a.save()
         w = l.weather_set.create(main=weather_res['main'],desc=weather_res['desc'],temp=weather_res['temp'],pressure=weather_res['pressure'],humidity=weather_res['humidity'],temp_min=weather_res['temp_min'],temp_max=weather_res['temp_max'],wind_speed=weather_res['wind_speed'],wind_degree=weather_res['wind_degree'],datetime=weather_res['datetime'],clouds_all=weather_res['clouds_all'],sys_sunrise=weather_res['sys_sunrise'],sys_sunset=weather_res['sys_sunset'],pub_date=timezone.now())
-        ar = l.affectiveresponse_set.create(category=c,familiarity=int(familiarity),accompany=int(accompany),comfortability=int(comfortability),pub_date=timezone.now())
+        ar = l.affectiveresponse_set.create(category=c,familiarity=int(familiarity),accompany=int(accompany),comfortability=int(comfortability),longevity=int(longevity),pub_date=timezone.now())
         batch_id = m = Master.objects.order_by('-pub_date')[0].batch_id
         b_id = batch_id+1
         for f_t in feature_list:
@@ -297,6 +295,18 @@ def get_area(request):
     area = Area.objects.get(pk=id) 
     result = list(Area.objects.filter(name=area).values('top_north_lat_TP','left_west_long_TL','right_east_long_TP','bottom_south_lat_TL')) 
     return HttpResponse(json.dumps(result), content_type="application/json") 
+
+def submit_area_name_request(request):
+    area_name = request.POST.get('requested_area_name', False)
+    a = Area(name=str(area_name), pub_date=timezone.now())
+    a.save()
+    return HttpResponseRedirect(reverse('map:index'))
+
+def submit_category_name_request(request):
+    category_name = request.POST.get('requested_category_name', False)
+    c = Category(name=str(category_name), pub_date=timezone.now())
+    c.save()
+    return HttpResponseRedirect(reverse('map:index'))
 
 def map_view(request):
     area_list = Area.objects.filter(status=1).order_by('-pub_date')

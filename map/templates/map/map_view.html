@@ -55,9 +55,9 @@
             </a>
             <ul>
                 <li><a href="{% url 'map:index'%}" class="waves-effect waves-light btn-floating red tooltipped" data-position="right" data-tooltip="Add"><i class="material-icons">add_location</i></a></li>
-                <!-- <li><a href="#!" class="waves-effect waves-light btn-floating yellow darken-1 tooltipped" data-position="right" data-tooltip="Request"><i class="material-icons">local_activity</i></a></li> -->
+                <li><a href="#modal5" class="waves-effect waves-light btn-floating yellow darken-1 modal-trigger tooltipped" data-position="right" data-tooltip="Request"><i class="material-icons">local_activity</i></a></li>
                 <li><a href="#modal2" class="waves-effect waves-light btn-floating green modal-trigger tooltipped" data-position="right" data-tooltip="Map View"><i class="material-icons">map</i></a></li>
-                <!-- <li><a href="{% url 'map:about'%}" class="waves-effect waves-light btn-floating blue tooltipped" data-position="right" data-tooltip="About"><i class="material-icons">copyright</i></a></li> -->
+                <li><a href="#modal4" class="waves-effect waves-light btn-floating blue modal-trigger tooltipped" data-position="right" data-tooltip="About"><i class="material-icons">copyright</i></a></li>
             </ul>
         </div>
                     
@@ -97,6 +97,160 @@
                 <input type="submit" class="modal-close waves-effect waves-green btn-flat" value="Submit">
                 </div>
             </form>
+          </div>
+
+          <div id="modal4" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                    <h4>About Categorized Affect Map</h4>
+                <div class="row">
+                    <div class="col s12 m12">
+                        <div class="card blue-grey darken-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">CAM (Categorized Affect Map)</span>
+                            <p> CAM (Categorized Affect Map) is part of a research project at the American International University
+                                Bangladesh (AIUB), Bangladesh, which aims to collect people's affective/emotional reponses towards 
+                                different stimuli/environments. You can use this in online manner, we are looking forward to make it 
+                                offline as well, however, we currently collecting data from two populated areas, Bashundhara R/A and Wari.
+                                For other areas we are expecting requests to add. 
+                            </p>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="row">
+                    <div class="col s12 m12">
+                        <div class="card blue-grey darken-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">What data will I be sharing?</span>
+                            <p>While you report your feelings, your mobile phone's or desktops GPS estimates your current 
+                               location. We also use a most approximation api from leaflet.js to get current location for 
+                               a user. Your answers and location information are then anonymously and securely sent to our 
+                               database. We don't record your name or any other identifying information including ip address.
+                               Therefore, we won't know who you are.   
+                            </p>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="row">
+                    <div class="col s12 m12">
+                        <div class="card blue-grey darken-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">How will the data be used?</span>
+                            <p>The data contributed are solely used for academic research perposes. We aim to investigate how people
+                                affectively response to different environments, and how these affective responses influence their behaviors,
+                                 e.g, approaching or avoiding particular places.
+                            </p>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="row">
+                    <div class="col s12 m12">
+                        <div class="card blue-grey darken-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">Acknowledgements</span>
+                            <p>Big thanks should be given to American International University Bangladesh for helping 
+                               and inspiring for this project. We also would like to thank our honorable Supervisor Professor 
+                               Dr. Tabin Hasan sir for accepting this project proposal and accelerating our works with his 
+                               supervision, guidance and continuous support. We would also appreciate for the encouragement given
+                               by all contributors adn supporting stuffs.
+                            </p>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="row">
+                    <div class="col s12 m12">
+                        <div class="card blue-grey darken-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">Acknowledgements</span>
+                            <p>Big thanks should be given to American International University Bangladesh for helping 
+                                and inspiring for this project. We also would like to thank our honorable Supervisor Professor 
+                                Dr. Tabin Hasan sir for accepting this project proposal and accelerating our works with his 
+                                supervision, guidance and continuous support. We would also appreciate for the encouragement given
+                                by all contributors adn supporting stuffs.
+                            </p>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="row">
+                        <div class="col s12 m12">
+                            <div class="card blue-grey darken-1">
+                            <div class="card-content white-text">
+                                <p> For more information regarding CAM (Categorized Affect Map), please contact <a href="mailto:categorizedaffectmap@gmail.com">categorizedaffectmap@gmail.com .</a>
+                                    Thank you for using CAM (Categorized Affect Map).
+                                </p>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                </div>
+                <div class="modal-footer">
+                <a href="{% url 'map:index'%}" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+                </div>
+            </div>
+            
+              <!-- Modal Structure -->
+            <div id="modal5" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col s12 m12">
+                        <div class="card grey lighten-5">
+                        <div class="card-content white-text">
+                            <span class="card-title" style="color:black;">Request For Area: (Area Name)</span>
+                            <p>
+                            <form method="POST" action="{% url 'map:submit-area-name-request'%}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="input-field col s9">
+                                        <input value="Like. Gulshan" id="requested_area_name" name="requested_area_name" type="text" class="validate">
+                                        <label class="active" for="requested_area_name">Area Name</label>
+                                    </div>
+                                    <div class="input-field col s3">
+                                        <input type="submit" class="modal-close waves-effect waves-green btn btn-flat" value="Submit">
+                                    </div>
+                                </div>
+                            </form>    
+                            </p>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12">
+                        <div class="card grey lighten-5">
+                        <div class="card-content white-text">
+                            <span class="card-title" style="color:black;">Request For Category: (Category Name)</span>
+                            <p>
+                            <form method="POST" action="{% url 'map:submit-category-name-request'%}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="input-field col s9">
+                                        <input value="Like. Unemployment" id="requested_category_name" name="requested_category_name" type="text" class="validate">
+                                        <label class="active" for="requested_category_name">Category Name</label>
+                                    </div>
+                                    <div class="input-field col s3">
+                                        <input type="submit" class="modal-close waves-effect waves-green btn btn-flat" value="Submit">
+                                    </div>
+                                </div>
+                            </form>  
+                            </p>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <a href="{% url 'map:index'%}" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+            </div>
           </div>
     
 
@@ -151,6 +305,9 @@
 
             $(document).ready(function(){
                 $('select').formSelect();
+            });
+            $(document).ready(function() {
+                M.updateTextFields();
             });
     
     </script>
