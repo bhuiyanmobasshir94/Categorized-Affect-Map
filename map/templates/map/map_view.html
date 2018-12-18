@@ -177,11 +177,11 @@
                             <form method="POST" action="{% url 'map:submit-area-name-request'%}">
                                 {% csrf_token %}
                                 <div class="row">
-                                    <div class="input-field col s6">
+                                    <div class="input-field col s12">
                                         <input value="Like. Gulshan" id="requested_area_name" name="requested_area_name" type="text" class="validate">
                                         <label class="active" for="requested_area_name">Area Name</label>
                                     </div>
-                                    <div class="input-field col s6">
+                                    <div class="input-field col s12">
                                         <input type="submit" class="modal-close waves-effect waves-green btn btn-flat" value="Submit">
                                     </div>
                                 </div>
@@ -200,11 +200,11 @@
                             <form method="POST" action="{% url 'map:submit-category-name-request'%}">
                                 {% csrf_token %}
                                 <div class="row">
-                                    <div class="input-field col s6">
+                                    <div class="input-field col s12">
                                         <input value="Like. Unemployment" id="requested_category_name" name="requested_category_name" type="text" class="validate">
                                         <label class="active" for="requested_category_name">Category Name</label>
                                     </div>
-                                    <div class="input-field col s6">
+                                    <div class="input-field col s12">
                                         <input type="submit" class="modal-close waves-effect waves-green btn btn-flat" value="Submit">
                                     </div>
                                 </div>
